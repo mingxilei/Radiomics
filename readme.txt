@@ -7,9 +7,9 @@ In this project, high dimentions of radiomics feature are evaluated to predict o
 1. feature extraction
 
 ROI (region of interest) is manually segmented by professional radiologists. We run algorithms on the ROI to extract statistic-based features and texture-based features.
-toolbox: Radiomics https://github.com/mvallieres/radiomics
 Pixel normalization algorithm is modified to be Z-score (it was Collewet in the toolbox).
 We tuned the pre-processing parameter to multiple dimentions of feature.
+toolbox: Radiomics https://github.com/mvallieres/radiomics
 
 2. dataset resampling
 
