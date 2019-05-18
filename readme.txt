@@ -1,7 +1,3 @@
-Radiomics
-12/2017 - 03/2018
-Advisor: Shuoyu Xu
-
 Scripts for feature extraction
 
 1. A Matlab-based toolbox:
