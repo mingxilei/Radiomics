@@ -8,6 +8,7 @@ Parameters:
 Notes:
     mask images are in the format of '.png', necessarily named in the order of slide location.
     e.g. 'Slice1.png', 'Slice2.png', ...
+    mask images in this sample script was marked in red and background is in white, so additional threshold is covered
 """
 import SimpleITK as sitk
 import numpy as np
