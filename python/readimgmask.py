@@ -6,8 +6,8 @@ Parameters:
     maskpath : directory of folder containing corresponding mask image
 -----
 Notes:
-    mask images are in the format of '.png', necessarily named in the order of slide location.
-    e.g. 'Slice1.png', 'Slice2.png', ...
+    mask images are in the format of '.png', necessarily named according to corresponding DICOM slice
+    e.g. 'Slice0001.png', 'Slice0002.png' correspond to '01.dcm', '02.dcm', respectively
     mask images in this sample script was marked in red and background is in white, so additional threshold is covered
 """
 import SimpleITK as sitk
@@ -16,14 +16,18 @@ import cv2, os
 
 
 # list all mask images in order
-def listdir(path):
+def listdir(path,dcmseq):
     list_name = []
-    for file in os.listdir(path):
-        file_path = os.path.join(path, file)
-        if os.path.splitext(file_path)[1] == '.PNG':
-            list_name.append(file_path)
-    # sort by file names
-    list_name.sort()
+    numdigit = max([len(i) for i in dcmseq])
+    for o in dcmseq:
+        for file in os.listdir(path):
+            file_path = os.path.join(path, file)
+            root, ext = os.path.splitext(file_path)
+            order = root[-numdigit:]
+            if ext == '.PNG':
+                if order == o.zfill(numdigit):
+                    list_name.append(file_path)
+
     return list_name
 
 
@@ -36,7 +40,11 @@ def readimgmask(dcmpath, maskpath):
     size = image.GetSize()[::-1]  # numpy use C-order
 
     # read mask in '.png' series
-    flist = listdir(maskpath)
+    dcmlist = reader.GetFileNames()
+    dcmnames = list()
+    for i in range(len(dcmlist)):
+        dcmnames.append(os.path.splitext(os.path.basename(dcmlist[i]))[0])
+    flist = listdir(maskpath, dcmnames)
     maskarray = np.zeros(size)
     for i, slice in enumerate(flist):
         temp = cv2.imread(slice, cv2.IMREAD_GRAYSCALE)
